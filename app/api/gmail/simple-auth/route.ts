@@ -32,6 +32,7 @@ export async function GET() {
     console.log('🔗 URL de autenticação gerada:', authUrl);
     console.log('🌐 Base URL detectada:', baseUrl);
     console.log('🔧 Ambiente:', isProduction ? 'PRODUÇÃO' : 'DESENVOLVIMENTO');
+    console.log('✅ Google Cloud Console URLs atualizadas - Build v2');
     
     return NextResponse.json({
       success: true,
