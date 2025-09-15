@@ -43,9 +43,7 @@ export async function GET(request: NextRequest) {
     // Armazenar tokens em cookies para uso posterior
     const isProduction = process.env.NODE_ENV === 'production';
     const baseUrl = isProduction 
-      ? process.env.VERCEL_URL 
-        ? `https://${process.env.VERCEL_URL}`
-        : 'https://gmail-analytics-mcp.vercel.app'
+      ? 'https://gmail-analytics-mcp.vercel.app' // Sempre usar o domínio principal
       : 'http://localhost:3000';
     
     const response = NextResponse.redirect(new URL('/?success=gmail_auth&authenticated=true', baseUrl));

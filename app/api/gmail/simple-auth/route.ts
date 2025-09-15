@@ -14,9 +14,7 @@ export async function GET() {
     // Detectar se está em produção ou desenvolvimento
     const isProduction = process.env.NODE_ENV === 'production';
     const baseUrl = isProduction 
-      ? process.env.VERCEL_URL 
-        ? `https://${process.env.VERCEL_URL}`
-        : 'https://gmail-analytics-mcp.vercel.app'
+      ? 'https://gmail-analytics-mcp.vercel.app' // Sempre usar o domínio principal
       : 'http://localhost:3000';
 
     // URL de autenticação simplificada
