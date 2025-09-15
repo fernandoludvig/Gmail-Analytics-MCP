@@ -41,7 +41,14 @@ export async function GET(request: NextRequest) {
     gmailClient.setCredentials(tokens.access_token!, tokens.refresh_token || undefined);
 
     // Armazenar tokens em cookies para uso posterior
-    const response = NextResponse.redirect(new URL('/?success=gmail_auth&authenticated=true', request.url));
+    const isProduction = process.env.NODE_ENV === 'production';
+    const baseUrl = isProduction 
+      ? process.env.VERCEL_URL 
+        ? `https://${process.env.VERCEL_URL}`
+        : 'https://seu-projeto.vercel.app' // Substitua pela URL real do seu Vercel
+      : 'http://localhost:3000';
+    
+    const response = NextResponse.redirect(new URL('/?success=gmail_auth&authenticated=true', baseUrl));
     
     // Configurar cookies com os tokens (em produção, use httpOnly e secure)
     response.cookies.set('gmail_access_token', tokens.access_token!, {

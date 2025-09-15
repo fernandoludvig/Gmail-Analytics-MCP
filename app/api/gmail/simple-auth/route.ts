@@ -11,10 +11,18 @@ export async function GET() {
       }, { status: 400 });
     }
 
-    // URL de autenticação simplificada para desenvolvimento
+    // Detectar se está em produção ou desenvolvimento
+    const isProduction = process.env.NODE_ENV === 'production';
+    const baseUrl = isProduction 
+      ? process.env.VERCEL_URL 
+        ? `https://${process.env.VERCEL_URL}`
+        : 'https://seu-projeto.vercel.app' // Substitua pela URL real do seu Vercel
+      : 'http://localhost:3000';
+
+    // URL de autenticação simplificada
     const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?` +
       `client_id=${clientId}&` +
-      `redirect_uri=${encodeURIComponent('http://localhost:3000/api/auth/callback/google')}&` +
+      `redirect_uri=${encodeURIComponent(`${baseUrl}/api/auth/callback/google`)}&` +
       `scope=${encodeURIComponent('https://www.googleapis.com/auth/gmail.readonly')}&` +
       `response_type=code&` +
       `access_type=offline&` +
