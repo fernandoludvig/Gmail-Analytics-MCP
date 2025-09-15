@@ -48,20 +48,20 @@ export async function GET(request: NextRequest) {
     
     const response = NextResponse.redirect(new URL('/?success=gmail_auth&authenticated=true', baseUrl));
     
-    // Configurar cookies com os tokens (em produção, use httpOnly e secure)
-    response.cookies.set('gmail_access_token', tokens.access_token!, {
+    // Configurar cookies com os tokens
+    const cookieOptions = {
       maxAge: 60 * 60 * 24 * 7, // 7 dias
       httpOnly: false, // Para permitir acesso do cliente
-      secure: false, // Para desenvolvimento local
-      sameSite: 'lax'
-    });
+      secure: isProduction, // HTTPS em produção
+      sameSite: 'lax' as const
+    };
+
+    response.cookies.set('gmail_access_token', tokens.access_token!, cookieOptions);
     
     if (tokens.refresh_token) {
       response.cookies.set('gmail_refresh_token', tokens.refresh_token, {
-        maxAge: 60 * 60 * 24 * 30, // 30 dias
-        httpOnly: false,
-        secure: false,
-        sameSite: 'lax'
+        ...cookieOptions,
+        maxAge: 60 * 60 * 24 * 30 // 30 dias
       });
     }
 
@@ -69,6 +69,11 @@ export async function GET(request: NextRequest) {
 
   } catch (error) {
     console.error('❌ Erro no callback:', error);
+    console.error('❌ Detalhes do erro:', {
+      message: error instanceof Error ? error.message : 'Erro desconhecido',
+      stack: error instanceof Error ? error.stack : undefined,
+      url: request.url
+    });
     return NextResponse.redirect(new URL('/?error=callback_error', request.url));
   }
 }
