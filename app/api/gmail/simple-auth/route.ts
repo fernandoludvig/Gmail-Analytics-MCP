@@ -16,7 +16,7 @@ export async function GET() {
     const baseUrl = isProduction 
       ? process.env.VERCEL_URL 
         ? `https://${process.env.VERCEL_URL}`
-        : 'https://seu-projeto.vercel.app' // Substitua pela URL real do seu Vercel
+        : 'https://gmail-analytics-mcp.vercel.app'
       : 'http://localhost:3000';
 
     // URL de autenticação simplificada
@@ -30,10 +30,17 @@ export async function GET() {
       `include_granted_scopes=true`;
 
     console.log('🔗 URL de autenticação gerada:', authUrl);
+    console.log('🌐 Base URL detectada:', baseUrl);
+    console.log('🔧 Ambiente:', isProduction ? 'PRODUÇÃO' : 'DESENVOLVIMENTO');
     
     return NextResponse.json({
       success: true,
-      authUrl: authUrl
+      authUrl: authUrl,
+      debug: {
+        baseUrl,
+        isProduction,
+        redirectUri: `${baseUrl}/api/auth/callback/google`
+      }
     });
   } catch (error) {
     console.error('❌ Erro ao gerar URL de autenticação:', error);

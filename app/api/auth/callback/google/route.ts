@@ -45,7 +45,7 @@ export async function GET(request: NextRequest) {
     const baseUrl = isProduction 
       ? process.env.VERCEL_URL 
         ? `https://${process.env.VERCEL_URL}`
-        : 'https://seu-projeto.vercel.app' // Substitua pela URL real do seu Vercel
+        : 'https://gmail-analytics-mcp.vercel.app'
       : 'http://localhost:3000';
     
     const response = NextResponse.redirect(new URL('/?success=gmail_auth&authenticated=true', baseUrl));
