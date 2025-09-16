@@ -43,8 +43,8 @@ const generateMockAnalytics = () => {
 
 export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const useMock = searchParams.get('mock') === 'true';
+    const url = new URL(request.url);
+    const useMock = url.searchParams.get('mock') === 'true';
     
     if (useMock) {
       console.log('🎭 Usando dados mock para demonstração');

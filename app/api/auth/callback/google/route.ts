@@ -8,6 +8,14 @@ export async function GET(request: NextRequest) {
     const code = searchParams.get('code');
     const state = searchParams.get('state');
     const error = searchParams.get('error');
+    
+    console.log('🔍 Callback recebido:', {
+      url: request.url,
+      hasCode: !!code,
+      hasState: !!state,
+      hasError: !!error,
+      error: error
+    });
 
     if (error) {
       console.error('❌ Erro no callback OAuth:', error);
