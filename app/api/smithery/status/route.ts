@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { smitheryClient } from '@/lib/smithery';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const isAvailable = smitheryClient.isAvailable();

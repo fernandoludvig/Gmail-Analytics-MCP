@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { smitheryClient } from '@/lib/smithery';
 import { gmailClient } from '@/lib/gmail';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const url = new URL(request.url);

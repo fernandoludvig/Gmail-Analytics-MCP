@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { smitheryClient } from '@/lib/smithery';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     const clientId = process.env.GOOGLE_CLIENT_ID;

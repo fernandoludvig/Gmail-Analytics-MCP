@@ -3,6 +3,8 @@ import { smitheryClient } from '@/lib/smithery';
 import { gmailClient } from '@/lib/gmail';
 import { TopEmail } from '@/types';
 
+export const dynamic = 'force-dynamic';
+
 // Mock data para demonstração
 const generateMockAnalytics = () => {
   const sentEmails: TopEmail[] = [
