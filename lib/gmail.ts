@@ -8,10 +8,15 @@ export class GmailAPIClient {
   private gmail: any;
 
   constructor() {
+    const isProduction = process.env.NODE_ENV === 'production';
+    const redirectUri = isProduction 
+      ? 'https://gmail-analytics-mcp.vercel.app/api/auth/callback/google'
+      : 'http://localhost:3000/api/auth/callback/google';
+      
     this.oauth2Client = new OAuth2Client(
       process.env.GOOGLE_CLIENT_ID,
       process.env.GOOGLE_CLIENT_SECRET,
-      'http://localhost:3000/api/auth/callback/google'
+      redirectUri
     );
   }
 
