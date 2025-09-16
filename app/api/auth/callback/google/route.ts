@@ -4,13 +4,12 @@ import { gmailClient } from '@/lib/gmail';
 
 export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const code = searchParams.get('code');
-    const state = searchParams.get('state');
-    const error = searchParams.get('error');
+    const url = new URL(request.url);
+    const code = url.searchParams.get('code');
+    const state = url.searchParams.get('state');
+    const error = url.searchParams.get('error');
     
     console.log('🔍 Callback recebido:', {
-      url: request.url,
       hasCode: !!code,
       hasState: !!state,
       hasError: !!error,
@@ -19,11 +18,17 @@ export async function GET(request: NextRequest) {
 
     if (error) {
       console.error('❌ Erro no callback OAuth:', error);
-      return NextResponse.redirect(new URL('/?error=oauth_error', request.url));
+      const baseUrl = process.env.NODE_ENV === 'production' 
+        ? 'https://gmail-analytics-mcp.vercel.app'
+        : 'http://localhost:3000';
+      return NextResponse.redirect(new URL('/?error=oauth_error', baseUrl));
     }
 
     if (!code) {
-      return NextResponse.redirect(new URL('/?error=no_code', request.url));
+      const baseUrl = process.env.NODE_ENV === 'production' 
+        ? 'https://gmail-analytics-mcp.vercel.app'
+        : 'http://localhost:3000';
+      return NextResponse.redirect(new URL('/?error=no_code', baseUrl));
     }
 
     const clientId = process.env.GOOGLE_CLIENT_ID;
@@ -31,7 +36,10 @@ export async function GET(request: NextRequest) {
 
     if (!clientId || !clientSecret) {
       console.error('❌ Credenciais não configuradas');
-      return NextResponse.redirect(new URL('/?error=missing_credentials', request.url));
+      const baseUrl = process.env.NODE_ENV === 'production' 
+        ? 'https://gmail-analytics-mcp.vercel.app'
+        : 'http://localhost:3000';
+      return NextResponse.redirect(new URL('/?error=missing_credentials', baseUrl));
     }
 
     console.log('🔄 Processando callback OAuth...');
@@ -79,9 +87,11 @@ export async function GET(request: NextRequest) {
     console.error('❌ Erro no callback:', error);
     console.error('❌ Detalhes do erro:', {
       message: error instanceof Error ? error.message : 'Erro desconhecido',
-      stack: error instanceof Error ? error.stack : undefined,
-      url: request.url
+      stack: error instanceof Error ? error.stack : undefined
     });
-    return NextResponse.redirect(new URL('/?error=callback_error', request.url));
+    const baseUrl = process.env.NODE_ENV === 'production' 
+      ? 'https://gmail-analytics-mcp.vercel.app'
+      : 'http://localhost:3000';
+    return NextResponse.redirect(new URL('/?error=callback_error', baseUrl));
   }
 }
