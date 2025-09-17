@@ -4,10 +4,10 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import GmailAuthMCP from '@/components/GmailAuthMCP';
+import { GmailLoginForm } from '@/components/GmailLoginForm';
 import EmailAnalytics from '@/components/EmailAnalytics';
 import { AuthState, EmailAnalytics as EmailAnalyticsType, TopEmail } from '@/types';
-import { RefreshCw, BarChart3, Mail, Send, Inbox, AlertCircle } from 'lucide-react';
+import { RefreshCw, BarChart3, Mail, Send, Inbox, AlertCircle, Shield } from 'lucide-react';
 // import { toast } from 'sonner';
 
 export default function HomePage() {
@@ -209,43 +209,43 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-950 relative overflow-hidden">
       {/* Background Effects */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%239C92AC%22%20fill-opacity%3D%220.05%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
-      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10"></div>
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.02%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30"></div>
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-zinc-800/5 via-transparent to-zinc-700/10"></div>
       
       <div className="container mx-auto px-4 py-8 relative z-10">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-block p-1 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-full mb-4">
-            <div className="bg-slate-900 px-6 py-2 rounded-full">
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent mb-2">
+          <div className="inline-block p-1 bg-gradient-to-r from-zinc-600 to-zinc-400 rounded-full mb-4">
+            <div className="bg-zinc-950 px-6 py-2 rounded-full">
+              <h1 className="text-4xl font-bold text-white mb-2">
                 Gmail Analytics MCP
               </h1>
             </div>
           </div>
-          <p className="text-lg text-cyan-200 font-light">
+          <p className="text-lg text-zinc-400 font-light">
             Análise inteligente de e-mails usando MCPs do Smithery.ai
           </p>
         </div>
 
         {/* Status das Credenciais */}
         {!hasCredentials && (
-          <Card className="mb-6 border-cyan-500/30 bg-gradient-to-r from-slate-800/50 to-slate-700/50 backdrop-blur-sm">
+          <Card className="mb-6 border-zinc-700 bg-zinc-900/50 backdrop-blur-sm">
             <CardHeader>
               <div className="flex items-center space-x-2">
-                <AlertCircle className="h-5 w-5 text-cyan-400" />
+                <AlertCircle className="h-5 w-5 text-zinc-400" />
                 <CardTitle className="text-white">
                   Configuração Necessária
                 </CardTitle>
               </div>
             </CardHeader>
             <CardContent>
-              <p className="text-slate-200 mb-4">
-                Para usar o aplicativo, configure as credenciais do Google OAuth no arquivo <code className="text-cyan-300 bg-slate-800/50 px-1 py-0.5 rounded">.env.local</code>:
+              <p className="text-zinc-300 mb-4">
+                Para usar o aplicativo, configure as credenciais do Google OAuth no arquivo <code className="text-zinc-200 bg-zinc-800 px-1 py-0.5 rounded">.env.local</code>:
               </p>
-              <div className="bg-slate-800/70 border border-cyan-500/30 p-3 rounded-md">
-                <code className="text-sm text-cyan-200">
+              <div className="bg-zinc-800 border border-zinc-700 p-3 rounded-md">
+                <code className="text-sm text-zinc-300">
                   GOOGLE_CLIENT_ID=seu_client_id<br/>
                   GOOGLE_CLIENT_SECRET=seu_client_secret
                 </code>
@@ -254,33 +254,54 @@ export default function HomePage() {
           </Card>
         )}
 
-        {/* Aviso sobre OAuth Multi-usuário */}
+        {/* Descrição do Aplicativo */}
         {hasCredentials && (
-          <Card className="mb-6 border-amber-500/30 bg-gradient-to-r from-amber-900/20 to-orange-900/20 backdrop-blur-sm">
+          <Card className="mb-6 border-zinc-700 bg-zinc-900/30 backdrop-blur-sm">
             <CardHeader>
               <div className="flex items-center space-x-2">
-                <AlertCircle className="h-5 w-5 text-amber-400" />
+                <BarChart3 className="h-5 w-5 text-zinc-400" />
                 <CardTitle className="text-white">
-                  🚀 Suporte Multi-Usuário
+                  📊 Descubra Seus Padrões de Comunicação
                 </CardTitle>
               </div>
             </CardHeader>
-            <CardContent className="space-y-3">
-              <p className="text-slate-200">
-                <strong className="text-amber-300">Localhost:</strong> Funciona com qualquer conta Gmail
+            <CardContent className="space-y-4">
+              <p className="text-zinc-300 text-base leading-relaxed">
+                Transforme seus dados de e-mail em insights valiosos! Descubra com quem você mais se comunica, 
+                identifique seus principais contatos e entenda seus hábitos de comunicação dos últimos 12 meses.
               </p>
-              <p className="text-slate-200">
-                <strong className="text-amber-300">Produção:</strong> Requer configuração no Google Cloud Console
-              </p>
-              <div className="bg-slate-800/50 border border-amber-500/30 p-3 rounded-md">
-                <p className="text-sm text-slate-300 mb-2">
-                  📋 <strong>Para usar em produção com qualquer usuário:</strong>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-zinc-800/50 border border-zinc-700 p-4 rounded-lg">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <Send className="h-4 w-4 text-zinc-400" />
+                    <h4 className="text-white font-medium">E-mails Enviados</h4>
+                  </div>
+                  <p className="text-sm text-zinc-400">
+                    Veja para quem você mais envia e-mails e descubra seus principais destinatários
+                  </p>
+                </div>
+                
+                <div className="bg-zinc-800/50 border border-zinc-700 p-4 rounded-lg">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <Inbox className="h-4 w-4 text-zinc-400" />
+                    <h4 className="text-white font-medium">E-mails Recebidos</h4>
+                  </div>
+                  <p className="text-sm text-zinc-400">
+                    Identifique quem mais entra em contato com você e seus remetentes frequentes
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-r from-zinc-800/30 to-zinc-700/30 border border-zinc-600/30 p-4 rounded-lg">
+                <div className="flex items-center space-x-2 mb-2">
+                  <Shield className="h-4 w-4 text-zinc-400" />
+                  <span className="text-white font-medium">100% Seguro e Privado</span>
+                </div>
+                <p className="text-sm text-zinc-400">
+                  Seus dados nunca são armazenados. Utilizamos apenas permissões de leitura do Gmail 
+                  com autenticação OAuth2 oficial do Google.
                 </p>
-                <ol className="text-sm text-slate-300 space-y-1 ml-4">
-                  <li>1. Acesse Google Cloud Console</li>
-                  <li>2. OAuth consent screen → &quot;PUBLISH APP&quot;</li>
-                  <li>3. Ou adicione usuários em &quot;Test users&quot;</li>
-                </ol>
               </div>
             </CardContent>
           </Card>
@@ -291,7 +312,7 @@ export default function HomePage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Painel de Autenticação */}
           <div className="lg:col-span-1">
-            <GmailAuthMCP
+            <GmailLoginForm
               authState={authState}
               onLogin={handleLogin}
               onLogout={handleLogout}
@@ -304,11 +325,11 @@ export default function HomePage() {
             {authState.isAuthenticated ? (
               <div className="space-y-6">
                 {/* Controles */}
-                <Card className="bg-slate-800/50 border-slate-700 backdrop-blur-sm">
+                <Card className="bg-zinc-900/50 border-zinc-700 backdrop-blur-sm">
                   <CardHeader>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-2">
-                        <BarChart3 className="h-5 w-5 text-cyan-400" />
+                        <BarChart3 className="h-5 w-5 text-zinc-400" />
                         <CardTitle className="text-white">Dashboard de Analytics</CardTitle>
                       </div>
                       <div className="flex space-x-2">
@@ -317,7 +338,7 @@ export default function HomePage() {
                           disabled={isRefreshing}
                           variant="outline"
                           size="sm"
-                          className="border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/10"
+                          className="border-zinc-600 text-zinc-300 hover:bg-zinc-800"
                         >
                           <RefreshCw className={`h-4 w-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
                           Atualizar
@@ -326,13 +347,13 @@ export default function HomePage() {
                           onClick={() => loadAnalytics(false)} 
                           disabled={isRefreshing}
                           size="sm"
-                          className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white"
+                          className="bg-zinc-800 hover:bg-zinc-700 border border-zinc-600 text-white"
                         >
                           📧 Carregar Dados Reais
                         </Button>
                       </div>
                     </div>
-                    <CardDescription className="text-slate-300">
+                    <CardDescription className="text-zinc-400">
                       Análise dos últimos 12 meses de e-mails
                     </CardDescription>
                   </CardHeader>
@@ -340,17 +361,17 @@ export default function HomePage() {
 
                 {/* Tabs de Analytics */}
                 <Tabs defaultValue="sent" className="w-full">
-                  <TabsList className="grid w-full grid-cols-2 bg-slate-800/50 border-slate-700">
+                  <TabsList className="grid w-full grid-cols-2 bg-zinc-800/50 border-zinc-700">
                     <TabsTrigger 
                       value="sent" 
-                      className="flex items-center space-x-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-500 data-[state=active]:text-white text-slate-300"
+                      className="flex items-center space-x-2 data-[state=active]:bg-zinc-700 data-[state=active]:text-white text-zinc-400"
                     >
                       <Send className="h-4 w-4" />
                       <span>E-mails Enviados</span>
                     </TabsTrigger>
                     <TabsTrigger 
                       value="received" 
-                      className="flex items-center space-x-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500 data-[state=active]:to-blue-500 data-[state=active]:text-white text-slate-300"
+                      className="flex items-center space-x-2 data-[state=active]:bg-zinc-700 data-[state=active]:text-white text-zinc-400"
                     >
                       <Inbox className="h-4 w-4" />
                       <span>E-mails Recebidos</span>
@@ -383,13 +404,13 @@ export default function HomePage() {
                 </Tabs>
               </div>
             ) : (
-              <Card className="bg-slate-800/50 border-slate-700 backdrop-blur-sm">
+              <Card className="bg-zinc-900/50 border-zinc-700 backdrop-blur-sm">
                 <CardContent className="flex items-center justify-center h-64">
                   <div className="text-center">
-                    <div className="p-4 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-full mb-4 inline-block">
-                      <Mail className="h-12 w-12 text-cyan-400" />
+                    <div className="p-4 bg-zinc-800 rounded-full mb-4 inline-block">
+                      <Mail className="h-12 w-12 text-zinc-400" />
                     </div>
-                    <p className="text-slate-300 text-lg">
+                    <p className="text-zinc-400 text-lg">
                       Faça login para visualizar seus analytics
                     </p>
                   </div>
@@ -400,10 +421,10 @@ export default function HomePage() {
         </div>
 
         {/* Footer */}
-        <div className="mt-12 text-center text-sm text-slate-400">
+        <div className="mt-12 text-center text-sm text-zinc-500">
           <p>
-            Powered by <strong className="text-cyan-400">Smithery.ai MCPs</strong> • 
-            Desenvolvido com <strong className="text-purple-400">Next.js 14</strong> e <strong className="text-cyan-400">ShadCN UI</strong>
+            Powered by <strong className="text-zinc-300">Smithery.ai MCPs</strong> • 
+            Desenvolvido com <strong className="text-zinc-300">Next.js 14</strong> e <strong className="text-zinc-300">ShadCN UI</strong>
           </p>
         </div>
       </div>
