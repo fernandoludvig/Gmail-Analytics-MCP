@@ -37,3 +37,4 @@ export function getDateRange(months: number = 12): string {
   date.setMonth(date.getMonth() - months);
   return date.toISOString().split('T')[0];
 }
+

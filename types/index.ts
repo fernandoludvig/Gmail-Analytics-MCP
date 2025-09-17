@@ -64,3 +64,4 @@ export interface SmitheryMCPResponse {
   error?: string;
   mcpUsed?: boolean;
 }
+

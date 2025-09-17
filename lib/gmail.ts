@@ -29,13 +29,20 @@ export class GmailAPIClient {
   }
 
   async getAuthUrl(): Promise<string> {
-    const scopes = ['https://www.googleapis.com/auth/gmail.readonly'];
+    // Usar apenas escopos básicos e seguros
+    const scopes = [
+      'https://www.googleapis.com/auth/gmail.readonly',
+      'https://www.googleapis.com/auth/userinfo.email',
+      'https://www.googleapis.com/auth/userinfo.profile'
+    ];
     
     return this.oauth2Client.generateAuthUrl({
       access_type: 'offline',
       scope: scopes,
-      prompt: 'consent',
-      include_granted_scopes: true
+      prompt: 'select_account', // Mudança para reduzir avisos
+      include_granted_scopes: true,
+      // Adicionar parâmetros para reduzir avisos
+      state: 'gmail_analytics_auth'
     });
   }
 

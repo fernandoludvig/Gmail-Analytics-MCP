@@ -58,13 +58,76 @@ export async function GET(request: NextRequest) {
     // Configurar o cliente Gmail com os tokens
     gmailClient.setCredentials(tokens.access_token!, tokens.refresh_token || undefined);
 
+    // Buscar dados do usuário
+    let userEmail = '';
+    let userName = '';
+    let userPicture = '';
+
+    try {
+      // Buscar informações do usuário via token
+      const { OAuth2Client } = require('google-auth-library');
+      const oauth2Client = new OAuth2Client();
+      oauth2Client.setCredentials({
+        access_token: tokens.access_token,
+        refresh_token: tokens.refresh_token
+      });
+
+      const tokenInfo = await oauth2Client.getTokenInfo(tokens.access_token!);
+      userEmail = tokenInfo.email || '';
+      console.log('📧 Email do usuário obtido:', userEmail);
+
+      // Tentar buscar mais dados via People API
+      try {
+        const { google } = require('googleapis');
+        const people = google.people({ version: 'v1', auth: oauth2Client });
+        
+        const profile = await people.people.get({
+          resourceName: 'people/me',
+          personFields: 'names,emailAddresses,photos'
+        });
+
+        if (profile.data.names && profile.data.names.length > 0) {
+          userName = profile.data.names[0].displayName || userEmail.split('@')[0];
+        } else {
+          userName = userEmail.split('@')[0] || 'Usuário';
+        }
+
+        if (profile.data.photos && profile.data.photos.length > 0) {
+          userPicture = profile.data.photos[0].url || '';
+        }
+
+        console.log('👤 Dados do usuário obtidos:', {
+          email: userEmail,
+          name: userName,
+          picture: userPicture
+        });
+      } catch (peopleError) {
+        console.log('⚠️ People API não disponível, usando dados básicos');
+        userName = userEmail.split('@')[0] || 'Usuário';
+      }
+    } catch (userError) {
+      console.error('❌ Erro ao buscar dados do usuário:', userError);
+      userEmail = 'usuario@exemplo.com';
+      userName = 'Usuário';
+    }
+
     // Armazenar tokens em cookies para uso posterior
     const isProduction = process.env.NODE_ENV === 'production';
     const baseUrl = isProduction 
       ? 'https://gmail-analytics-mcp.vercel.app' // Sempre usar o domínio principal
       : 'http://localhost:3000';
     
-    const response = NextResponse.redirect(new URL('/?success=gmail_auth&authenticated=true', baseUrl));
+    // Incluir dados do usuário na URL
+    const redirectUrl = new URL('/', baseUrl);
+    redirectUrl.searchParams.set('success', 'gmail_auth');
+    redirectUrl.searchParams.set('authenticated', 'true');
+    redirectUrl.searchParams.set('user_email', encodeURIComponent(userEmail));
+    redirectUrl.searchParams.set('user_name', encodeURIComponent(userName));
+    if (userPicture) {
+      redirectUrl.searchParams.set('user_picture', encodeURIComponent(userPicture));
+    }
+    
+    const response = NextResponse.redirect(redirectUrl);
     
     // Configurar cookies com os tokens
     const cookieOptions = {

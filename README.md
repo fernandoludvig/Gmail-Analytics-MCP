@@ -265,3 +265,5 @@ Se você encontrar algum problema ou tiver dúvidas:
 ---
 
 **Desenvolvido com ❤️ usando Next.js 14, React e MCPs do Smithery.ai**
+
+
