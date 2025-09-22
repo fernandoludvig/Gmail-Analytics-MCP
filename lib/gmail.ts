@@ -39,9 +39,8 @@ export class GmailAPIClient {
     return this.oauth2Client.generateAuthUrl({
       access_type: 'offline',
       scope: scopes,
-      prompt: 'select_account', // Mudança para reduzir avisos
+      prompt: 'consent', // Força consentimento para evitar avisos futuros
       include_granted_scopes: true,
-      // Adicionar parâmetros para reduzir avisos
       state: 'gmail_analytics_auth'
     });
   }
